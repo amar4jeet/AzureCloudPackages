@@ -1,0 +1,87 @@
+-------------------------------------------------------------------------------
+-- Program 3090-DIM_CONNECTION_POINT.tsql
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw
+
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2021-07-07 | Malay Nandi  	              | Initial Version
+-------------------------------------------------------------------------------
+
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.DIM_CONNECTION_POINT') IS NOT NULL
+BEGIN
+DROP TABLE im${logical_env}_dimlayer.DIM_CONNECTION_POINT
+END
+GO
+
+CREATE TABLE [im${logical_env}_dimlayer].[DIM_CONNECTION_POINT]
+(
+	[CONNECTION_POINT_SK] [bigint] IDENTITY(1,1) NOT NULL,
+	[TIMELINE_FROM_DT] [date] NOT NULL,
+	[TIMELINE_TO_DT] [date] NOT NULL,
+	[NMI] [varchar](512) NOT NULL,
+	[NMI_FROM_DT] [date] NOT NULL,
+	[NMI_TO_DT] [date] NOT NULL,
+	[NMI_STATUS] [varchar](512) NULL,
+	[NMI_STATUS_FROM_DT] [date] NULL,
+	[NMI_STATUS_TO_DT] [date] NULL,
+	[NMI_CLASSIFICATION] [varchar](512) NULL,
+	[NMI_CLASSIFICATION_FROM_DT] [date] NULL,
+	[NMI_CLASSIFICATION_TO_DT] [date] NULL,
+	[DAILY_LOSS_FACTOR_CODE] [varchar](512) NULL,
+	[DLF_FROM_DT] [date] NULL,
+	[DLF_TO_DT] [date] NULL,
+	[TNI] [varchar](512) NULL,
+	[TNI_FROM_DT] [date] NULL,
+	[TNI_TO_DT] [date] NULL,
+	[TARIFF_CODE] [varchar](512) NULL,
+        [TARIFF_DESC] [varchar](512) NULL,
+	[TARIFF_FROM_DT] [date] NULL,
+	[TARIFF_TO_DT] [date] NULL,
+	[CUSTOMER_CLASS] [varchar](512) NULL,
+	[BILLING_CLASS_CODE] [varchar](512) NULL,
+	[METER_READING_ROUTE_CODE] [varchar](512) NULL,
+	[DIVISION] [varchar](512) NULL,
+	[CUSTOMER_CLASSIFICATION] [varchar](512) NULL,
+	[CUSTOMER_THRESHOLD] [varchar](512) NULL,
+	[CUSTOMER_THRESHOLD_FROM_DT] [date] NULL,
+	[TNI_CODE_2] [varchar](512) NULL,
+	[PARENT_NETWORK] [varchar](512) NULL,
+	[HAZARD_TYPE_CODE] [varchar](512) NULL,
+	[SUPPLY_GUARANTEE_CODE] [varchar](512) NULL,
+	[RELEASE_STATUS_CODE] [varchar](512) NULL,
+	[EMBEDDED_NETWORK_ID] [varchar](512) NULL,
+	[EMBEDDED_NETWORK_DESC] [varchar](512) NULL,
+	[NMA_NETWORK_CRITICAL_CODE] [varchar](512) NULL,
+	[NMA_NETWORK_CRITICAL_DESC] [varchar](512) NULL,
+	[REMOTE_SERV_DISABLED_FLAG] [varchar](512) NULL,
+	[REMOTE_SERV_DISABLED_FROM_DT] [date] NULL,
+	[REMOTE_SERV_DISABLED_TO_DT] [date] NULL,
+	[COMMS_FAULT_ORD_EXCL_FLAG] [varchar](512) NULL,
+	[MOVE_IN_DT] [date] NULL,
+	[MOVE_IN_REVERSED_FLAG] [varchar](512) NULL,
+	[INSTALLATION_SERVICE_DETAILS] [varchar](512) NULL,
+	[SUBSTATION_ID] [varchar](512) NULL,
+	[SUBSTATION_NAME] [varchar](512) NULL,
+	[SOLAR_CAPACITY] [varchar](512) NULL,
+	[NMI11] [varchar](512) NULL,
+	[INSTALLATION_ID] [varchar](512) NULL,
+	[PREMISE_ID] [varchar](512) NULL,
+	[CONTRACT_ID] [varchar](512) NULL,
+	[CURRENT_RECORD_FLAG] [varchar](1) NULL,
+	[ROW_EFFECTIVE_DTM] [datetime2](0)  NULL,
+	[ROW_EXPIRATION_DTM] [datetime2](0) NULL,
+	[HSH_KEY] [varchar](512) NOT NULL,
+	[HSH_DIFF] [varchar](512) NOT NULL,
+	[RECORD_INSERT_DTM] [datetime2](0) NOT NULL,
+	[RECORD_UPDATE_DTM] [datetime2](0) NULL
+)
+WITH
+(
+	DISTRIBUTION = HASH ( [NMI] ),
+	CLUSTERED COLUMNSTORE INDEX
+)
+GO

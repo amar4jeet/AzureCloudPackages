@@ -1,0 +1,66 @@
+-------------------------------------------------------------------------------
+-- Program 3060-DIM_METER.tsql
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2021-06-24 | Sainath Bodla 	              | Initial Version
+-------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.DIM_METER') IS NOT NULL
+BEGIN
+DROP TABLE im${logical_env}_dimlayer.DIM_METER
+END
+GO
+
+
+CREATE TABLE [im${logical_env}_dimlayer].[DIM_METER]
+(
+	[METER_SK] [bigint] IDENTITY(1,1) NOT NULL,
+	[SERIAL_NUMBER] [varchar](512) NULL,
+	[TIMELINE_FROM_DT] [date] NULL,
+	[TIMELINE_TO_DT] [date] NULL,
+	[EQUIPMENT_NUMBER] [varchar](512) NULL,
+	[MODEL_NUMBER] [varchar](512) NULL,
+	[CONSTRUCTION_YEAR] [int] NULL,
+	[MATERIAL_NUMBER] [varchar](512) NULL,
+	[MANUFACTURER_NAME] [varchar](512) NULL,
+	[STOCK_BATCH_TYPE] [varchar](512) NULL,
+	[MATERIAL_DESC] [varchar](512) NULL,
+	[DEVICE_CATEGORY] [varchar](512) NULL,
+	[DEVICE_CATEGORY_DESC] [varchar](512) NULL,
+	[METER_PREFIX_CODE] [varchar](512) NULL,
+	[METER_PREFIX_FROM_DT] [date] NULL,
+	[METER_PREFIX_TO_DT] [date] NULL,
+	[METER_PROGRAM_CODE] [varchar](512) NULL,
+	[METER_PROGRAM_FROM_DT] [date] NULL,
+	[METER_PROGRAM_TO_DT] [date] NULL,
+	[READ_TYPE_CODE] [varchar](512) NULL,
+	[READ_TYPE_CODE_FROM_DT] [date] NULL,
+	[READ_TYPE_CODE_TO_DT] [date] NULL,
+	[INSTALL_TYPE_CODE] [varchar](512) NULL,
+	[INSTALL_TYPE_CODE_FROM_DT] [date] NULL,
+	[INSTALL_TYPE_CODE_TO_DT] [date] NULL,
+	[WARRANTY_FROM_DT] [date] NULL,
+	[WARRANTY_TO_DT] [date] NULL,
+	[WARRANTY_DELETION_FLAG] [varchar](512) NULL,
+	[CURRENT_RECORD_FLAG] [varchar](1) NULL,
+	[ROW_EFFECTIVE_DTM] [datetime2](0) NULL,
+	[ROW_EXPIRATION_DTM] [datetime2](0) NULL,
+	[HSH_KEY] [varchar](512) NOT NULL,
+	[HSH_DIFF] [varchar](512) NOT NULL,
+	[RECORD_INSERT_DTM] [datetime2](0) NULL,
+	[RECORD_UPDATE_DTM] [datetime2](0) NULL,
+ CONSTRAINT [PK_METER] PRIMARY KEY NONCLUSTERED 
+	(
+		[METER_SK] ASC
+	) NOT ENFORCED 
+)
+WITH
+(
+	DISTRIBUTION = HASH ( [SERIAL_NUMBER] ),
+	CLUSTERED COLUMNSTORE INDEX
+)
+GO

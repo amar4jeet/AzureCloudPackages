@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+-- Program 8090-fn_get_business_days.tsql  
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw 
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2022-02-02 | sainath. 	              | Initial Version
+-------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.fn_get_business_days') IS NOT NULL
+BEGIN
+DROP FUNCTION im${logical_env}_dimlayer.fn_get_business_days
+END
+GO
+
+
+CREATE FUNCTION im${logical_env}_dimlayer.[fn_get_business_days] (@StartDt [DATE],@EndDT [DATE]) RETURNS TABLE
+AS
+
+RETURN (select COUNT(distinct DT_CAL_DATE) as businessdays
+from [im${logical_env}_RAWVAULT].[REF_SLP_VIC_BUS_DAYS] 
+where DT_DATE_KEY>=(YEAR(@StartDt) * 10000 + MONTH(@StartDt) * 100 + DAY(@StartDt)) AND DT_DATE_KEY<= (YEAR(@EndDT) * 10000 + MONTH(@EndDT) * 100 + DAY(@EndDT))
+and VIC_BD_IND=1);

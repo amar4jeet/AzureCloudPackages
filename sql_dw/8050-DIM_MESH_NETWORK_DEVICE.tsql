@@ -1,0 +1,69 @@
+-------------------------------------------------------------------------------
+-- Program 3060-DIM_MESH_NETWORK_DEVICE.tsql  
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2021-11-21 | Gururaj Gunjal  	              | Initial Version
+-------------------------------------------------------------------------------
+IF OBJECT_ID(N'im${logical_env}_dimlayer.DIM_MESH_NETWORK_DEVICE') IS NOT NULL
+BEGIN
+DROP TABLE im${logical_env}_dimlayer.DIM_MESH_NETWORK_DEVICE
+END
+GO
+
+CREATE TABLE [im${logical_env}_dimlayer].[DIM_MESH_NETWORK_DEVICE]
+(
+	[MESH_NETWORK_DEVICE_SK] [bigint] IDENTITY(1,1) NOT NULL,
+	[NET_DEVICE_ID] [bigint] NOT NULL,
+	[NIC_MAC_ID] [varchar](512) NOT NULL,
+	[SERIAL_NUMBER] [varchar](512) NOT NULL,
+	[SEGMENT_ID] [bigint] NULL,
+	[DEVICE_SUBTYPE_ID] [bigint] NULL,
+	[DEVICE_SUBTYPE_DESC] [varchar](512) NULL,
+	[DEVICE_TYPE_ID] [bigint] NULL,
+	[DEVICE_TYPE_DESC] [varchar](512) NULL,
+	[MASTER_RESOURCE_ID] [varchar](512) NULL,
+	[DEVICE_STATE_ID] [bigint] NULL,
+	[DEVICE_STATE_DESC] [varchar](512) NULL,
+	[PREVIOUS_DEVICE_STATE_ID] [bigint] NULL,
+	[PREVIOUS_DEVICE_STATE_DESC] [varchar](512) NULL,
+	[UTILITY_DEVICE_STATE_ID] [bigint] NULL,
+	[UTILITY_DEVICE_STATE_DESC] [varchar](512) NULL,
+	[UTILITY_NETWORK_STATE_ID] [bigint] NULL,
+	[UTILITY_NETWORK_STATE_DESC] [varchar](512) NULL,
+	[NETWORK_DEVICE_NAME] [varchar](128) NULL,
+	[NETWORK_BACKBONE_FLAG] [bigint] NULL,
+	[SUSPECT_FLAG] [bigint] NULL,
+	[SUSPECT_REASON] [varchar](4000) NULL,
+	[TIME_ZONE_ID] [bigint] NULL,
+	[TIME_ZONE_DESC] [varchar](512) NULL,
+	[NETWORK_DEVICE_TYPE_ID] [bigint] NULL,
+	[MANUFACTURE_DTM] [datetime2](0) NULL,
+	[HARDWARE_CONFIGURATION] [varchar](4000) NULL,
+	[SOFTWARE_CONFIGURATION] [varchar](4000) NULL,
+	[LINK_STATE_FLAG] [bigint] NULL,
+	[REPROVISION_DTM] [datetime2](0) NULL,
+	[INSERT_DTM] [datetime2](0) NULL,
+	[UPDATE_DTM] [datetime2](0) NULL,
+	[SOCKET_AP_FLAG] [bigint] NULL,
+	[CURRENT_RECORD_FLAG] [varchar](1) NOT NULL,
+	[ROW_EFFECTIVE_DTM] [datetime2](0) NOT NULL,
+	[ROW_EXPIRATION_DTM] [datetime2](0) NOT NULL,
+	[HSH_KEY] [varchar](512) NOT NULL,
+	[HSH_DIFF] [varchar](512) NOT NULL,
+	[RECORD_INSERT_DTM] [datetime2](0) NOT NULL,
+	[RECORD_UPDATE_DTM] [datetime2](0) NOT NULL,
+ CONSTRAINT [PK_DIM_MESH_NETWORK_DEVICE] PRIMARY KEY NONCLUSTERED 
+	(
+		[MESH_NETWORK_DEVICE_SK] ASC
+	) NOT ENFORCED 
+)
+WITH
+(
+	DISTRIBUTION = HASH ( [SERIAL_NUMBER] ),
+	CLUSTERED COLUMNSTORE INDEX
+)
+GO

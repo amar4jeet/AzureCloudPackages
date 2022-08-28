@@ -1,0 +1,71 @@
+-------------------------------------------------------------------------------
+-- Program 5400-DIM_CUSTOMER.tsql
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2022-01-17 | Sainath Bodla 	              | Initial Version
+-------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.DIM_CUSTOMER') IS NOT NULL
+BEGIN
+DROP TABLE im${logical_env}_dimlayer.DIM_CUSTOMER
+END
+GO
+
+
+CREATE TABLE [im${logical_env}_dimlayer].[DIM_CUSTOMER]
+(
+	[CUSTOMER_SK] [bigint] IDENTITY(1,1) NOT NULL,
+	[NMI] [varchar](512) NULL,
+	[ADDRESS_NUMBER] [varchar](512) NULL,
+	[PARTNER] [varchar](512) NULL,
+	[CUSTOMER_ADDRESS_FROM_DT] [date] NULL,
+	[CUSTOMER_ADDRESS_TO_DT] [date] NULL,
+	[FIRST_NAME] [varchar](512) NULL,
+	[LAST_NAME] [varchar](512) NULL,
+	[CUSTOMER_NAME1] [varchar](512) NULL,
+	[CUSTOMER_NAME2] [varchar](512) NULL,
+	[CUSTOMER_NAME3] [varchar](512) NULL,
+	[CUSTOMER_NAME4] [varchar](512) NULL,
+	[EMAIL_ID] [varchar](512) NULL,
+	[HOUSE_NUMBER] [varchar](512) NULL,
+	[LOT_NUMBER] [varchar](512) NULL,
+	[FLAT_UNIT_NUMBER] [varchar](512) NULL,
+	[FLOOR] [varchar](512) NULL,
+	[STREET] [varchar](512) NULL,
+	[LOCATION] [varchar](512) NULL,
+	[CITY_SUBURB] [varchar](512) NULL,
+	[STATE] [varchar](512) NULL,
+	[REGION] [varchar](512) NULL,
+	[COUNTRY] [varchar](512) NULL,
+	[POST_CODE] [varchar](512) NULL,
+	[ADDRESS] [varchar](512) NULL,
+	[ADDRESS_LINE1] [varchar](512) NULL,
+	[ADDRESS_LINE2] [varchar](512) NULL,
+	[ADDRESS_LINE3] [varchar](512) NULL,
+	[ADDRESS_KIND] [varchar](512) NULL,
+	[TEL_NUMBER1] [varchar](512) NULL,
+	[TEL_NUMBER2] [varchar](512) NULL,
+	[PERSNUMBER] [varchar](512) NULL,
+	[CONSNUMBER] [varchar](512) NULL,
+	[CURRENT_RECORD_FLAG] [varchar](1) NULL,
+	[ROW_EFFECTIVE_DTM] [datetime2](0) NULL,
+	[ROW_EXPIRATION_DTM] [datetime2](0) NULL,
+	[HSH_KEY] [varchar](512) NOT NULL,
+	[HSH_DIFF] [varchar](512) NOT NULL,
+	[RECORD_INSERT_DTM] [datetime2](0) NULL,
+	[RECORD_UPDATE_DTM] [datetime2](0) NULL,
+ CONSTRAINT [PK_CUSTOMER] PRIMARY KEY NONCLUSTERED 
+	(
+		[CUSTOMER_SK] ASC
+	) NOT ENFORCED 
+)
+WITH
+(
+	DISTRIBUTION = HASH ( [NMI] ),
+	CLUSTERED COLUMNSTORE INDEX
+)
+GO

@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+-- Program 4072-FN_GET_COUNT_OF_SUBSTRING.tsql  
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw 
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2021-07-09 | nidhin. 	              | Initial Version
+-------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.FN_GET_COUNT_OF_SUBSTRING') IS NOT NULL
+BEGIN
+DROP FUNCTION im${logical_env}_dimlayer.FN_GET_COUNT_OF_SUBSTRING
+END
+GO
+
+
+CREATE FUNCTION im${logical_env}_dimlayer.FN_GET_COUNT_OF_SUBSTRING (@inputText [varchar](2000),@tosearch [varchar](2000)) RETURNS INT
+AS
+BEGIN  
+
+	declare @COUNT_SUB int;
+
+  
+	SET @COUNT_SUB= (DATALENGTH(@inputText)-DATALENGTH(REPLACE(@inputText,@tosearch,'')))/DATALENGTH(@tosearch)  ;
+
+    RETURN(@COUNT_SUB);  
+END
+GO

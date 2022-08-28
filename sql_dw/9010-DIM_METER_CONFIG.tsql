@@ -1,0 +1,63 @@
+-------------------------------------------------------------------------------
+-- Program 3060-DIM_METER_CONFIG.tsql
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2022-01-31 | Gururaj Gunjal  	              | Initial Version
+-------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.DIM_METER_CONFIG') IS NOT NULL
+BEGIN
+DROP TABLE im${logical_env}_dimlayer.DIM_METER_CONFIG
+END
+GO
+
+CREATE TABLE [im${logical_env}_dimlayer].[DIM_METER_CONFIG]
+(
+[METER_CONFIG_SK] [bigint] IDENTITY(1,1) NOT NULL,
+[METER_CONFIG_ID] [VARCHAR](200)NULL,
+[DIVISION_CODE] [VARCHAR](2)NULL,
+[TARIFF_CODE] [VARCHAR](10) NULL,
+[AMI_TARIFF_CODE] [VARCHAR](10) NULL,
+[ADV_MTR_SYS_CODE] [VARCHAR](4)NULL,
+[ADV_MTR_CAP_GRP_CODE] [VARCHAR](4)NULL,
+[CUSTOMER_CLASSIFICATION] [VARCHAR](4)NULL,
+[INSTALL_TYPE_CODE] [VARCHAR](10) NULL,
+[AMI_STATUS_CODE] [VARCHAR](12) NULL,
+[READ_TYPE_CODE1] [VARCHAR](8)NULL,
+[READ_TYPE_CODE2] [VARCHAR](8)NULL,
+[READ_TYPE_CODE3] [VARCHAR](8)NULL,
+[METERPREFIX_PROG] [VARCHAR](30) NULL,
+[CONT_LOAD_FLAG] [VARCHAR](1) NULL,
+[PHASE] [VARCHAR](6) NULL,
+[DEDICATED_CIRCUIT_FLAG] [VARCHAR](15) NULL,
+[SAP_REGISTER_ID] [VARCHAR](3)NULL,
+[READ_REGISTER_ID] [VARCHAR](2)NULL,
+[REGISTER_CODE] [VARCHAR](15) NULL,
+[REGISTER_STATUS_CODE] [VARCHAR](2)NULL,
+[CHANNEL_UOM_CODE] [VARCHAR](3)NULL,
+[TIME_OF_DAY_CODE] [VARCHAR](8)NULL,
+[READ_RELEVANCE_FLAG] [VARCHAR](1) NULL,
+[BILL_RELEVANCE_FLAG] [VARCHAR](1) NULL,
+[CNTR_REG_FLAG] [VARCHAR](1) NULL,
+[CURRENT_RECORD_FLAG] [VARCHAR](1) NULL,
+[ROW_EFFECTIVE_DTM] [datetime2](0) NULL,
+[ROW_EXPIRATION_DTM] [datetime2](0) NULL,
+[HSH_KEY] [VARCHAR](512) NOT NULL,
+[HSH_DIFF] [VARCHAR](512) NOT NULL,
+[RECORD_INSERT_DTM] [datetime2](0) NULL,
+[RECORD_UPDATE_DTM] [datetime2](0) NULL,
+ CONSTRAINT [PK_DIM_METER_CONFIG] PRIMARY KEY NONCLUSTERED 
+	(
+		[METER_CONFIG_SK] ASC
+	) NOT ENFORCED 
+)
+WITH
+(
+	DISTRIBUTION = HASH ( [METER_CONFIG_ID] ),
+	CLUSTERED COLUMNSTORE INDEX
+)
+GO

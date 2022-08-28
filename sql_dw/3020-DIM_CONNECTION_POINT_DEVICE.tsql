@@ -1,0 +1,46 @@
+-------------------------------------------------------------------------------
+-- Program 3020-DIM_CONNECTION_POINT_DEVICE.tsql
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw
+
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2021-06-23 | Malay  	              | Initial Version
+-------------------------------------------------------------------------------
+
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.DIM_CONNECTION_POINT_DEVICE') IS NOT NULL
+BEGIN
+DROP TABLE im${logical_env}_dimlayer.DIM_CONNECTION_POINT_DEVICE
+END
+GO
+
+CREATE TABLE [im${logical_env}_dimlayer].[DIM_CONNECTION_POINT_DEVICE]
+(
+	[CONNECTION_POINT_DEVICE_SK] [bigint] IDENTITY(1,1) NOT NULL,
+	[NMI] [varchar](512) NOT NULL,
+	[INSTALLED_ON_DT] [date] NULL,
+	[REMOVED_ON_DT] [date] NULL,
+	[SERIAL_NUMBER] [varchar](512) NULL,
+	[EQUIPMENT_NUMBER] [varchar](512) NULL,
+	[DEVICE_CATEGORY] [varchar](512) NULL,
+	[CURRENT_RECORD_FLAG] [varchar](1) NOT NULL,
+	[ROW_EFFECTIVE_DTM] [datetime2](0) NOT NULL,
+	[ROW_EXPIRATION_DTM] [datetime2](0) NOT NULL,
+	[HSH_KEY] [varchar](512) NOT NULL,
+	[HSH_DIFF] [varchar](512) NOT NULL,
+	[RECORD_INSERT_DTM] [datetime2](0) NOT NULL,
+	[RECORD_UPDATE_DTM] [datetime2](0) NOT NULL,
+	CONSTRAINT [PK_CONNECTION_POINT_DEVICE] PRIMARY KEY NONCLUSTERED
+    (
+        [CONNECTION_POINT_DEVICE_SK] ASC
+    ) NOT ENFORCED
+)
+WITH
+(
+	DISTRIBUTION = HASH ( [NMI] ),
+	CLUSTERED COLUMNSTORE INDEX
+)
+GO

@@ -1,0 +1,25 @@
+-------------------------------------------------------------------------------
+-- Program 4073-ConvertoLocalTime.tsql
+-------------------------------------------------------------------------------
+-- Purpose:
+--   Creates the dimension table in dw   
+-------------------------------------------------------------------------------
+-- Date       | Author                        | Description
+-------------------------------------------------------------------------------
+-- 2021-07-09 | nidhin. 	              | Initial Version
+-------------------------------------------------------------------------------
+
+IF OBJECT_ID(N'im${logical_env}_dimlayer.ConvertoLocalTime') IS NOT NULL
+BEGIN
+DROP FUNCTION im${logical_env}_dimlayer.ConvertoLocalTime
+END
+GO
+
+
+CREATE FUNCTION im${logical_env}_dimlayer.ConvertoLocalTime (@inputUTCTime [DATETIME]) RETURNS DATETIME
+AS
+BEGIN
+  return CONVERT(datetime, SWITCHOFFSET(@inputUTCTime, DATEPART(TZOFFSET, 
+@inputUTCTime AT TIME ZONE 'AUS Eastern Standard Time')))
+END
+GO
